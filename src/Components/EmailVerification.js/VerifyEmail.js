@@ -21,15 +21,15 @@ const VerifyEmail = () => {
         token: token
     }
 
-    useEffect(() => {
-        if(authenticationState.isAuthenticated){
-            window.localStorage.removeItem('auth-token');
-            setAuthenticationState({
-                isAuthenticated: false,
-                token: undefined
-            });
-        }
-    }, [])
+    // useEffect(() => {
+    //     if(authenticationState.isAuthenticated){
+    //         window.localStorage.removeItem('auth-token');
+    //         setAuthenticationState({
+    //             isAuthenticated: false,
+    //             token: undefined
+    //         });
+    //     }
+    // }, [])
 
     const validate = (changedObject) => {
         const errors = {}
@@ -71,6 +71,11 @@ const VerifyEmail = () => {
 
     const { handleChange, handleSubmit, values, response, responseStatusCode ,errors, isLoading } = useForm(initialValues, validate, cb)
     
+
+    if(authenticationState.isAuthenticated){
+        return <Redirect to="/" />
+    }
+
     return (
         <Container>
             <Row>
