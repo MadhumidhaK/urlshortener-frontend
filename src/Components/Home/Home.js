@@ -17,12 +17,47 @@ import Filter from "../Filter/Filter";
 import { responsiveRecoil } from "../../sharedStates/responsive";
 
 const Home = function(){
-    const authenticationState = useRecoilValue(authenticationStateRecoil);
+    const [authenticationState, setAuthenticationState] = useRecoilState(authenticationStateRecoil);
     const [chartState, setChartState] = useRecoilState(chartStateRecoil);
     const [filterState, setFilterState] = useRecoilState(filterStateRecoil);
     const resetFilter = useResetRecoilState(filterStateRecoil);
     const [responsive, setResponsive] = useRecoilState(responsiveRecoil);
     const [userURLs, setUserURLs]  = useRecoilState(userURLsRecoil);
+
+
+    
+
+  const verifyToken = async () => { 
+    try{
+        console.log("from local storage")
+        const storedToken = window.localStorage.getItem('auth-token');
+        const res = await fetch( url + "/user/verifytoken", {
+                                    method: "GET",
+                                    headers:{
+                                        'Authorization': storedToken
+                                    },
+                                    credentials: 'include',
+                                });
+        const { isLoggedIn } =await res.json();
+
+        if(isLoggedIn ){
+            setAuthenticationState({
+                isAuthenticated: true,
+                token: storedToken
+            })
+        }else{
+            setAuthenticationState({
+                isAuthenticated: false,
+                token: undefined
+            })
+        }
+    }catch(err){
+        console.log(err)
+    }
+}
+    useEffect(function(){
+        verifyToken();
+    }, [])
 
     const [counts, setCounts] = useState({
         clicksCount: 0,
@@ -34,7 +69,6 @@ const Home = function(){
     });
    
     useEffect(() => {
-       
             console.log('resizing')
             console.log(responsive)
             if(window.innerWidth < 768){

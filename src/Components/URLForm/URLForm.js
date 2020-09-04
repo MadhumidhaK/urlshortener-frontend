@@ -78,7 +78,7 @@ const URLForm = function() {
         if(urlFormState.createURL){
             console.log(response)
             setUserURLs([...userURLs, response.newURL]);
-            if(filterState.isFiltered && filterState.filter === "Today" || filterState.filter === "Week" || filterState.filter === "Month" ){
+            if(filterState.isFiltered && (filterState.filter === "Today" || filterState.filter === "Week" || filterState.filter === "Month") ){
                 setDisplayingURLs([...displayingURLs, response.newURL])   
             }
             setToastState({
