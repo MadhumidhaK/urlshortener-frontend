@@ -1,1 +1,1 @@
-exports.url = "https://minyurl.herokuapp.com"
+exports.url = "https://minyurl.herokuapp.com";
