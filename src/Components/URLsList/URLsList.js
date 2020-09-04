@@ -2,7 +2,7 @@ import "./URLsList.css"
 import React from 'react';
 import { ListGroup, ListGroupItem } from 'reactstrap';
 import { useRecoilValue, useRecoilState } from 'recoil';
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import moment from "moment";
 import { url } from '../../utils/apiURL';
 import { displayingURLsRecoil } from "../../sharedStates/displayingURLs";
@@ -18,10 +18,10 @@ const URLsList = () => {
     
     return (
         <ListGroup className="overflow-auto list">
-            <ListGroupItem>{ linksCount + (linksCount === 1 ? " Link" : " Links")}</ListGroupItem>
+            <ListGroupItem className="text-center li-head">{ linksCount + (linksCount === 1 ? " Link" : " Links")}</ListGroupItem>
             { displayingURLs.map((u, i) => {
                 return (
-                    <Link key={i} to={"/" + u.shortUrl} onClick={() => {
+                    <NavLink key={i} to={"/" + u.shortUrl} onClick={() => {
                             if(responsive.isMobile){
                                 setResponsive({
                                     ...responsive,
@@ -39,7 +39,7 @@ const URLsList = () => {
                                 <p className="text-secondary small">{u.clicks.length + (u.clicks.length === 1 ? " Click" : " Clicks")}</p>
                             </div>
                         </ListGroupItem>
-                    </Link>
+                    </NavLink>
                 )
             })}
         </ListGroup>

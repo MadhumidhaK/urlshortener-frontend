@@ -2,3 +2,12 @@
     max-height: calc(100vh - 8.5rem);
     margin: 0;
 }
+
+.active li{
+    background-color: #f0f4f9;
+}
+
+.li-head {
+    background: #dfe0e1;
+    color: black;
+}
