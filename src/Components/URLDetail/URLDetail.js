@@ -72,9 +72,9 @@ const URLDetail = () => {
                                     <a href={ url +  "/" + u.shortUrl} className="text-danger text-break" target="_blank">{ url +  "/" + u.shortUrl}</a>
                                     <Button size="sm" className="ml-2 px-2 py-0 short-url-btn" outline onClick={openUrLForm}>Edit</Button>
                                 </div>
-                                <div className="d-flex justify-content-center align-items-center flex-nowrap">
-                                <p>Total Clicks {u.clicks.length}</p>
-                                <ResponsiveContainer width="100%" height={250}>
+                                <div className="d-flex justify-content-center align-items-center flex-wrap">
+                                <p>Total Clicks: {u.clicks.length}</p>
+                                {u.clicks.length > 0 && <ResponsiveContainer width="80%" height={250}>
                                     <BarChart width={850} height={250} data={data}>
                                         
                                         <XAxis dataKey={"date"} tickFormatter={(x) => {
@@ -86,7 +86,7 @@ const URLDetail = () => {
                                         }}/>
                                         <Bar dataKey="count" fill="green" />
                                     </BarChart>
-                                </ResponsiveContainer>
+                                </ResponsiveContainer>}
                                 </div>
                             </Col>
                         </Row>
