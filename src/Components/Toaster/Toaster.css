@@ -1,0 +1,10 @@
+.toaster-position{
+    position: fixed;
+    top: 60px;
+    right: 10px;
+    z-index: 200;
+}
+
+.min-wid{
+    min-width: 18.75rem;
+}

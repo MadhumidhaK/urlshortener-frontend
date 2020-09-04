@@ -1,0 +1,1 @@
+exports.url = "https://minyurl.herokuapp.com/"

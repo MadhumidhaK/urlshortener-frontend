@@ -1,0 +1,25 @@
+.chart-btn{
+    margin-top: -15px;
+    padding-bottom: 0;
+}
+
+.bg-blue{
+    background-color: #2a4c69!important;
+    color:whitesmoke;
+}
+.bg-blue p{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: small;
+}
+
+button,
+button:hover,
+button:active{
+    outline: none!important;
+    box-shadow: none!important;
+    border: none!important;
+}
+
+.page-spin{
+    margin-top: 20%;
+}

@@ -1,0 +1,9 @@
+.short-url-btn{
+    color: rgb(255, 94, 0);
+    border: 1px solid rgb(255, 94, 0)
+}
+
+.short-url-btn:hover{
+    color: white;
+    background-color: rgb(255, 94, 0);
+}

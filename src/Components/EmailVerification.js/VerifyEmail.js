@@ -1,7 +1,7 @@
-import "./Login.css"
-import React, { useState } from 'react';
+import "./VerifyEmail.css";
+import React, { useState, useEffect } from 'react';
 import { Button, Form, FormGroup, Label, Input, Col, Row, Container, Alert, FormText } from 'reactstrap';
-import { useHistory, useLocation, Redirect } from "react-router-dom";
+import { useHistory, useLocation, Redirect, useParams } from "react-router-dom";
 import { useRecoilState, errorSelector } from 'recoil';
 import {  authenticationStateRecoil } from '../../sharedStates/authenticationState';
 import { url } from '../../utils/apiURL';
@@ -9,15 +9,25 @@ import { useFetch } from '../../hooks/useFetch';
 import { useForm } from '../../hooks/useForm';
 import { validateEmail } from '../../utils/validateEmail';
 
-const Login = () => {
+const VerifyEmail = () => {
     const [ authenticationState, setAuthenticationState ] = useRecoilState(authenticationStateRecoil);
     const history = useHistory();
-    const location = useLocation();
-
+    const { token } = useParams();
     const initialValues = {
         email: "",
-        password: ""
+        password: "",
+        token: token
     }
+
+    useEffect(() => {
+        if(authenticationState.isAuthenticated){
+            window.localStorage.removeItem('auth-token');
+            setAuthenticationState({
+                isAuthenticated: false,
+                token: undefined
+            });
+        }
+    }, [])
 
     const validate = (changedObject) => {
         const errors = {}
@@ -48,29 +58,24 @@ const Login = () => {
                 token: response.token
             });
             window.localStorage.setItem('auth-token', response.token);
-            return history.replace(from);
+            return history.push("/");
     }
 
-    const { handleChange, handleSubmit, values, response, responseStatusCode ,errors } = useForm(initialValues, validate, cb);
-
-    const { from } = location.state || { from: { pathname: "/" } };
-    console.log(from);
+    const { handleChange, handleSubmit, values, response, responseStatusCode ,errors } = useForm(initialValues, validate, cb)
     
-    if(authenticationState.isAuthenticated){
-        return <Redirect to="/" />
-    }
     return (
         <Container>
             <Row>
                 <Col md={5} className="bg-light mx-auto mt-3 p-3">
                     <div >
-                        { errors.error && <Alert color="danger" className="mt-2">{responseStatusCode === 406 ?
+                        { errors.error && <Alert color="danger" className="mt-2">{responseStatusCode === 410 ?
                            <p>{ errors.error}{"  "}<span className="span-link" onClick={() => {
+                               console.log("clicked")
                                 return history.push("/request/verify");
-                           }}>{" "}Click here</span> to request a new Link</p> : errors.error
+                            }}>Click here</span> to request a new Link</p> : errors.error
                         }</Alert>}
                             <Form onSubmit={(e) => {
-                                handleSubmit(e, url + "/user/login");
+                                handleSubmit(e, url + "/user/verifyemail");
                             }} autoComplete="off">
                             <FormGroup inline={true}>
                                 <Label for="email" className="text-dark">Email</Label>
@@ -104,10 +109,7 @@ const Login = () => {
                                     </FormText>}
                             </FormGroup>
                             {' '}
-                            <p className="float-right small-link" color="secondary" role="button" onClick={() => {
-                                return history.push("/request/reset");
-                            }}>Forgot password?</p>
-                            <Button className="mx-auto bg-success w-100">Log in</Button>
+                            <Button className="mx-auto bg-success w-100">Verify</Button>
                         </Form>
                     </div>
                 </Col>
@@ -116,4 +118,4 @@ const Login = () => {
     )
 }
 
-export default Login;
+export default VerifyEmail;
