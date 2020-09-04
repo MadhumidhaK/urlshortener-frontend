@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import { Button, Form, FormGroup, Label, Input, Col, Row, Container, Alert, FormText, Spinner } from 'reactstrap';
-import { useHistory, useLocation, Redirect } from "react-router-dom";
-import { useRecoilState, errorSelector, useRecoilValue } from 'recoil';
+import {  Redirect } from "react-router-dom";
+import {  useRecoilValue } from 'recoil';
 import {  authenticationStateRecoil } from '../../sharedStates/authenticationState';
 import { url } from '../../utils/apiURL';
-import { useFetch } from '../../hooks/useFetch';
 import { useForm } from '../../hooks/useForm';
 import { validateEmail } from '../../utils/validateEmail';
 

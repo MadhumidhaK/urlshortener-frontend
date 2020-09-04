@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Form, FormGroup, Label, Input, Col, Row, Container, Alert, FormText } from 'reactstrap';
+import { Button, Form, FormGroup, Label, Input, Col, Row, Container, Alert, FormText, Spinner } from 'reactstrap';
 import { useHistory, useLocation, Redirect, useParams } from "react-router-dom";
 import { useRecoilState, errorSelector, useRecoilValue } from 'recoil';
 import {  authenticationStateRecoil } from '../../sharedStates/authenticationState';
@@ -106,7 +106,14 @@ const RequestEmailVerification = () => {
                                             {errors.email}
                                     </FormText>}
                             </FormGroup>
-                            <Button className="mx-auto bg-success w-100">Submit</Button>
+                            { isLoading ? 
+                                
+                                <div className="text-center">
+                                    <br />
+                                    <Spinner type="grow" color="warning"></Spinner>
+                                </div>
+                             : 
+                            <Button className="mx-auto bg-success w-100">Submit</Button>}
                         </Form>
                     </div>
                 </Col>

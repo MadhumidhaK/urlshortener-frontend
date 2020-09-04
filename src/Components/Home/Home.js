@@ -2,7 +2,6 @@ import "./Home.css"
 import React, { useState, useEffect }  from 'react';
 import { Button, Alert, Row, Col, Container,  Collapse, CardBody, Card, Input, Label, ButtonGroup, Spinner, UncontrolledTooltip } from 'reactstrap';
 import { useRecoilState, useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
-import { urlFormStateRecoil } from '../../sharedStates/urlFormState';
 import URLForm from '../URLForm/URLForm';
 import { userURLsRecoil } from '../../sharedStates/userURLs';
 import { useFetch } from '../../hooks/useFetch';
@@ -10,17 +9,12 @@ import { authenticationStateRecoil } from '../../sharedStates/authenticationStat
 import { url }   from '../../utils/apiURL';
 import { chartStateRecoil } from '../../sharedStates/chartState';
 import Chart from '../Chart/Chart';
-import { lastMonthsURLsRecoil } from "../../sharedStates/lastMonthsURLs";
 import URLsList from "../URLsList/URLsList";
 import URLDetail from "../URLDetail/URLDetail";
 import { BrowserRouter as Router } from "react-router-dom";
 import { filterStateRecoil } from "../../sharedStates/filterState";
 import Filter from "../Filter/Filter";
-import { useMediaQuery } from 'react-responsive'
 import { responsiveRecoil } from "../../sharedStates/responsive";
-
-
-
 
 const Home = function(){
     const authenticationState = useRecoilValue(authenticationStateRecoil);
@@ -29,28 +23,43 @@ const Home = function(){
     const resetFilter = useResetRecoilState(filterStateRecoil);
     const [responsive, setResponsive] = useRecoilState(responsiveRecoil);
     const [userURLs, setUserURLs]  = useRecoilState(userURLsRecoil);
-    const [lastMonthURLs, setLastMonthURLs]  = useRecoilState(lastMonthsURLsRecoil);
+
     const [counts, setCounts] = useState({
         clicksCount: 0,
         urlCount: 0
     })
-    const mediaQueryResult = useMediaQuery({ query: '(max-width: 776px)' })
-    
+    const [isResizing, setIsResizing ]= useState(false);
+    window.addEventListener('resize', () => {
+        setIsResizing(window.innerWidth)
+    });
+   
     useEffect(() => {
-        setResponsive({
-            ...responsive,
-            isMobile: mediaQueryResult
-        })
-    }, [])
+       
+            console.log('resizing')
+            console.log(responsive)
+            if(window.innerWidth < 768){
+                setResponsive({
+                    ...responsive,
+                    isMobile: true
+                })
+            }else{
+                setResponsive({
+                    isMobile: false,
+                    mobile: {
+                        isURLDetailOpen: false
+                    }
+                })
+            }
+        
+    }, [isResizing])
     const [userURLsError, setUserURLsError ] = useState({
         error: ""
     });
-    const [lastMonthURLsError, setLastMonthURLsError ] = useState({
-        error: ""
-    });
-
+    
     const userURLsSuccesCB = (response) => {
         setUserURLs(response.userUrls);
+
+        
     }
 
     const userURLsErrorCB = (response) => {
@@ -61,17 +70,31 @@ const Home = function(){
         })
     }
 
-    const lastMonthURLsErrorCB = (response) => {
-        console.log("error occured")
-        console.log(response);
-        setLastMonthURLsError({
-            error: response.error
-        })
-    }
+    const { response, responseStatusCode, error, isLoading } = useFetch(url + "/url/all", {
+        method: "GET",
+        headers: {
+            "Authorization": authenticationState.token
+        },
+        credentials: 'include'
+    }, userURLsSuccesCB, userURLsErrorCB);
 
-    const lastMonthURLsCB = (response) => {
-        setLastMonthURLs(response.userUrls);
-        const count = response.userUrls.length;
+    
+    useEffect(() => {
+        console.log("chartState")
+        console.log(chartState)
+    }, [chartState]);
+    useEffect(() => {
+        const clicksCount  = userURLs.reduce((clicksCount, userURL) => {
+            return clicksCount + userURL.clicks.length
+        }, 0);
+        const urlCount = userURLs.length;
+        setCounts({
+           clicksCount: clicksCount,
+           urlCount: urlCount
+        });
+
+        const count = userURLs.length;
+        if(count > 0 ){
         let i = 0;
         let data = [];
         const today = new Date();
@@ -89,7 +112,7 @@ const Home = function(){
             d.setDate(d.getDate() + 1);
         }
         while(i < count){
-            const index = 32  - (Math.round((new Date() - new Date(response.userUrls[i].createdAt)) / (1000 * 60 * 60 * 24)));
+            const index = 32  - (Math.round((new Date() - new Date(userURLs[i].createdAt)) / (1000 * 60 * 60 * 24)));
 
             if(index >= 0){
                 data = data.map((d, j) => {
@@ -99,7 +122,7 @@ const Home = function(){
                             return {
                                 ...d,
                                 count: d.count + 1,
-                                urls: [...d.urls, response.userUrls[i] ]
+                                urls: [...d.urls, userURLs[i] ]
                             }
                         })
             }
@@ -110,41 +133,12 @@ const Home = function(){
             data
         });
     }
-    const { response, responseStatusCode, error, isLoading } = useFetch(url + "/url/all", {
-        method: "GET",
-        headers: {
-            "Authorization": authenticationState.token
-        },
-        credentials: 'include'
-    }, userURLsSuccesCB, userURLsErrorCB);
-
-    const lastmonthURL = useFetch(url + "/url/lastmonth", {
-        method: "GET",
-        headers: {
-            "Authorization": authenticationState.token
-        },
-        credentials: 'include'
-    }, lastMonthURLsCB, lastMonthURLsErrorCB);
-    
-    useEffect(() => {
-        console.log("chartState")
-        console.log(chartState)
-    }, [chartState]);
-    useEffect(() => {
-        const clicksCount  = userURLs.reduce((clicksCount, userURL) => {
-            return clicksCount + userURL.clicks.length
-        }, 0);
-        const urlCount = userURLs.length;
-        setCounts({
-           clicksCount: clicksCount,
-           urlCount: urlCount
-        })
     }, [userURLs]);
 
    
 
 
-    if(userURLsError.error || lastMonthURLsError.error){
+    if(userURLsError.error){
          return (
             <div>
                 <Row>

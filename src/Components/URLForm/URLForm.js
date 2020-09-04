@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, Label, FormText, Alert } from 'reactstrap';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, Label, FormText, Alert, Spinner } from 'reactstrap';
 import { useRecoilState, useRecoilValue, useResetRecoilState, useSetRecoilState } from "recoil";
 import { urlFormStateRecoil } from "../../sharedStates/urlFormState";
 import { useForm } from "../../hooks/useForm";
@@ -20,7 +20,7 @@ const URLForm = function() {
 
     const [addName, setAddName] = useState(false);
     const [userURLs, setUserURLs]  = useRecoilState(userURLsRecoil);
-    const [toastState, setToastState] = useRecoilState(toastStateRecoil)
+    const [toastState, setToastState] = useRecoilState(toastStateRecoil);
     const toggle = () => {
         resetURLForm();
         setValues({
@@ -148,7 +148,7 @@ const URLForm = function() {
 
     }
 
-    const { handleChange, handleSubmit, values, setValues, response, responseStatusCode ,errors } = useForm(initialValues, validate, sucessCB, errorCB)
+    const { handleChange, handleSubmit, values, setValues, response, responseStatusCode ,errors, isLoading } = useForm(initialValues, validate, sucessCB, errorCB)
 
     return (
         <Modal isOpen={urlFormState.isOpen} toggle={toggle}>
@@ -197,13 +197,13 @@ const URLForm = function() {
                 +Add Title</p>}
         </ModalBody>
         <ModalFooter>
-          <Button color="secondary" onClick={(e) => {
+          {isLoading ? <Spinner type="grow" color="info" /> : <Button color="secondary" onClick={(e) => {
               const endPoint = urlFormState.createURL ? url + "/url/create": url + "/url/update/name";
               const reqMethod = urlFormState.createURL ? "POST" : "PATCH";
               handleSubmit(e, endPoint, {
                 "Authorization" : authenticationState.token
             }, reqMethod)
-            }}>{urlFormState.createURL ? "Create" : "Update"}</Button>
+            }}>{urlFormState.createURL ? "Create" : "Update"}</Button>}
         </ModalFooter>
       </Modal>
     )

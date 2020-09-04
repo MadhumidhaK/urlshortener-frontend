@@ -2,7 +2,7 @@ import "./URLsList.css"
 import React from 'react';
 import { ListGroup, ListGroupItem } from 'reactstrap';
 import { useRecoilValue, useRecoilState } from 'recoil';
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import moment from "moment";
 import { url } from '../../utils/apiURL';
 import { displayingURLsRecoil } from "../../sharedStates/displayingURLs";
@@ -21,7 +21,7 @@ const URLsList = () => {
             <ListGroupItem>{ linksCount + (linksCount === 1 ? " Link" : " Links")}</ListGroupItem>
             { displayingURLs.map((u, i) => {
                 return (
-                    <NavLink to={"/" + u.shortUrl} onClick={() => {
+                    <Link key={i} to={"/" + u.shortUrl} onClick={() => {
                             if(responsive.isMobile){
                                 setResponsive({
                                     ...responsive,
@@ -39,7 +39,7 @@ const URLsList = () => {
                                 <p className="text-secondary small">{u.clicks.length + (u.clicks.length === 1 ? " Click" : " Clicks")}</p>
                             </div>
                         </ListGroupItem>
-                    </NavLink>
+                    </Link>
                 )
             })}
         </ListGroup>

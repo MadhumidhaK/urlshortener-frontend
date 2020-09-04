@@ -1,12 +1,12 @@
 import "./Toaster.css"
 import React, { useEffect } from 'react';
 import { Toast, ToastBody, ToastHeader } from 'reactstrap';
-import { useRecoilState, useResetRecoilState } from 'recoil';
+import { useResetRecoilState, useRecoilValue } from 'recoil';
 import { toastStateRecoil } from '../../sharedStates/toastState';
 
 const Toaster = (props) => {
 
-    const [ toastState, setToastState ] = useRecoilState(toastStateRecoil);
+    const  toastState = useRecoilValue(toastStateRecoil);
     const resetToast = useResetRecoilState(toastStateRecoil);
 
     useEffect(() => {

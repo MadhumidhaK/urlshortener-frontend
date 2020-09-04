@@ -2,7 +2,6 @@ import React from "react";
 import { Route, Redirect } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import {  authenticationStateRecoil } from "../../sharedStates/authenticationState";
-import Home from "../Home/Home";
 
 
 const PrivateRoute = function ({ component: Component, ...rest}){

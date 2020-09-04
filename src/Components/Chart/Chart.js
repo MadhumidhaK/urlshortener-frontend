@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import moment from "moment";
-import {BarChart, CartesianGrid, XAxis, YAxis, Legend, Bar,Tooltip, ResponsiveContainer } from "recharts";
-import { useRecoilState, useResetRecoilState } from 'recoil';
+import {BarChart,  XAxis, YAxis, Bar,Tooltip, ResponsiveContainer } from "recharts";
+import { useRecoilValue } from 'recoil';
 import { chartStateRecoil } from '../../sharedStates/chartState';
 
-const Chart = (props) => {
-    const [chartState, setChartState] = useRecoilState(chartStateRecoil);
-    const resetChartState = useResetRecoilState(chartStateRecoil);
+const Chart = () => {
+    const chartState = useRecoilValue(chartStateRecoil);
     const dateFormatter = (item) => moment(item).format("DD MMM");
 
     return (

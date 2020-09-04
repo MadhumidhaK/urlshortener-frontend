@@ -1,26 +1,21 @@
 import React, { useState } from 'react';
 import {
-  Collapse,
   Navbar,
-  NavbarToggler,
-  NavbarBrand,
   Nav,
   NavItem,
-  Button,
 } from 'reactstrap';
 import {
     NavLink
 } from 'react-router-dom';
 
 import "./NavBar.css"
-import { useRecoilValue, useRecoilState, useResetRecoilState } from 'recoil';
+import {  useRecoilState, useResetRecoilState, useSetRecoilState } from 'recoil';
 import { authenticationStateRecoil } from '../../sharedStates/authenticationState';
 import { urlFormStateRecoil } from '../../sharedStates/urlFormState';
 
 const NavBar = (props) => {
-    const [isOpen, setIsOpen] = useState(false);
     const [authenticationState, setAuthenticationState] = useRecoilState(authenticationStateRecoil);
-    const [urlFormState, setUrlFormState] = useRecoilState(urlFormStateRecoil);
+    const setUrlFormState = useSetRecoilState(urlFormStateRecoil);
     const resetForm = useResetRecoilState(urlFormStateRecoil);
 
     const logoutHandler = () => {
@@ -34,7 +29,7 @@ const NavBar = (props) => {
     return (
       <div>
         <Navbar className="flex-nowrap" color="dark" dark expand="md">
-          <NavbarBrand><NavLink to="/">MinyURL</NavLink></NavbarBrand>
+          <NavLink className="navbar-brand" to="/">MinyURL</NavLink>
             <Nav className="ml-auto flex-row align-items-center" navbar>
               {
                 authenticationState.isAuthenticated ? 

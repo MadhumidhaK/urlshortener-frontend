@@ -1,11 +1,10 @@
 import "./Login.css"
-import React, { useState } from 'react';
-import { Button, Form, FormGroup, Label, Input, Col, Row, Container, Alert, FormText } from 'reactstrap';
+import React from 'react';
+import { Button, Form, FormGroup, Label, Input, Col, Row, Container, Alert, FormText, Spinner } from 'reactstrap';
 import { useHistory, useLocation, Redirect } from "react-router-dom";
 import { useRecoilState, errorSelector } from 'recoil';
 import {  authenticationStateRecoil } from '../../sharedStates/authenticationState';
 import { url } from '../../utils/apiURL';
-import { useFetch } from '../../hooks/useFetch';
 import { useForm } from '../../hooks/useForm';
 import { validateEmail } from '../../utils/validateEmail';
 
@@ -51,7 +50,7 @@ const Login = () => {
             return history.replace(from);
     }
 
-    const { handleChange, handleSubmit, values, response, responseStatusCode ,errors } = useForm(initialValues, validate, cb);
+    const { handleChange, handleSubmit, values, response, responseStatusCode ,errors, isLoading } = useForm(initialValues, validate, cb);
 
     const { from } = location.state || { from: { pathname: "/" } };
     console.log(from);
@@ -104,10 +103,16 @@ const Login = () => {
                                     </FormText>}
                             </FormGroup>
                             {' '}
-                            <p className="float-right small-link" color="secondary" role="button" onClick={() => {
+                            <p className="float-right small-link d-block m-0" color="secondary" role="button" onClick={() => {
                                 return history.push("/request/reset");
                             }}>Forgot password?</p>
-                            <Button className="mx-auto bg-success w-100">Log in</Button>
+                            { isLoading ? 
+                                
+                                <div className="text-center">
+                                    <br />
+                                    <Spinner type="grow" color="success"></Spinner>
+                                </div>
+                             : <Button className="mx-auto mt-2 bg-success w-100">Log in</Button>}
                         </Form>
                     </div>
                 </Col>

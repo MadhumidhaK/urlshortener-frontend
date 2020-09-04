@@ -1,12 +1,12 @@
 import "./URLDetail.css"
 import React from 'react';
-import { useRecoilValue, useSetRecoilState, useResetRecoilState } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { userURLsRecoil } from '../../sharedStates/userURLs';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import moment from "moment";
 import { Row, Col, Button } from 'reactstrap';
 import { url } from '../../utils/apiURL';
-import { ResponsiveContainer, BarChart, CartesianGrid, XAxis, YAxis, Bar,  Tooltip } from 'recharts';
+import { ResponsiveContainer, BarChart,  XAxis, YAxis, Bar,  Tooltip } from 'recharts';
 import { urlFormStateRecoil } from "../../sharedStates/urlFormState";
 import { displayingURLsRecoil } from "../../sharedStates/displayingURLs";
 
