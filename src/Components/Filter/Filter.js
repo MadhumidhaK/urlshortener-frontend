@@ -97,7 +97,7 @@ const Filter = () => {
                             <ButtonGroup>
                                 <Button color="warning" onClick={() => {
                                     const date= new Date ()
-                                    getFilteredUrls(url + "/url/date/"+ date.toISOString(), "Today");
+                                    getFilteredUrls(url + "/url/date/"+ date.getTime(), "Today");
                                 }}  size="sm">Day</Button>
                                 <Button color="warning" onClick={() => {
                                     getFilteredUrls(url + "/url/lastweek", "Week");
