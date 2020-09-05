@@ -89,7 +89,7 @@ const Filter = () => {
     return(
         <>  
             <Modal isOpen={filterState.isFilterModalOpen} toggle={toggle}>
-                <ModalHeader toggle={toggle} className="bg-light">Modal title</ModalHeader>
+                <ModalHeader toggle={toggle} className="bg-light">Apply Filter</ModalHeader>
                     <ModalBody  className="bg-light">
                             {error.error && <p className="text-danger">{ error.error}</p>}
                         <div className="d-flex justify-content-around">
