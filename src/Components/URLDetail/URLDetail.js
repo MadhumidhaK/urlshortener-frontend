@@ -1,10 +1,10 @@
 import "./URLDetail.css"
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { userURLsRecoil } from '../../sharedStates/userURLs';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import moment from "moment";
-import { Row, Col, Button } from 'reactstrap';
+import { Row, Col, Button, Tooltip as Tip } from 'reactstrap';
 import { url } from '../../utils/apiURL';
 import { ResponsiveContainer, BarChart,  XAxis, YAxis, Bar,  Tooltip } from 'recharts';
 import { urlFormStateRecoil } from "../../sharedStates/urlFormState";
@@ -14,6 +14,20 @@ const URLDetail = () => {
     const  displayingURLs   = useRecoilValue(displayingURLsRecoil);
     const dateFormatter = (item) => moment(item).format("MMM DD, HH:MM A ");
     const setUrlFormState = useSetRecoilState(urlFormStateRecoil);
+    const [isCopiedTip, setIsCopiedTip] = useState({
+        isOpen: false,
+        text: ""
+    });
+    useEffect(() => {
+        if(isCopiedTip.isOpen){
+            setTimeout(() => {
+                setIsCopiedTip({
+                    isOpen: false,
+                    text: ""
+                })
+            }, 3000)
+        }
+    }, [isCopiedTip])
     return (
         <div>
             <Switch>
@@ -61,6 +75,23 @@ const URLDetail = () => {
                             alreadyExistsError: false
                         })
                     }
+
+                    const copyShortURL = async () => {
+                            try{
+                                   const copied = await navigator.clipboard.writeText(url +  "/" + u.shortUrl);
+                                   console.log(copied)
+                                    setIsCopiedTip({
+                                        isOpen: true,
+                                        text: "Copied!"
+                                    })
+                            }catch(error){
+                                    console.log(error);
+                                    setIsCopiedTip({
+                                        isOpen: true,
+                                        text: "Unable to copy!"
+                                    })
+                            }
+                    }
                    return (<Route key={i} sensitive exact path={"/" + u.shortUrl}>
                        <Row className="m-0">
                             <Col md='12'>
@@ -71,6 +102,12 @@ const URLDetail = () => {
                                 <div className="d-flex align-items-center">
                                     <a href={ url +  "/" + u.shortUrl} className="text-danger text-break" target="_blank">{ url +  "/" + u.shortUrl}</a>
                                     <Button size="sm" className="ml-2 px-2 py-0 short-url-btn" outline onClick={openUrLForm}>Edit</Button>
+                                    <Button size="sm" className="ml-2 px-2 py-0 copy-btn" id="copy" color="info" outline onClick={() => {
+                                        copyShortURL();
+                                    }}>Copy</Button>
+                                    <Tip placement="top" isOpen={isCopiedTip.isOpen} target="copy">
+                                        {isCopiedTip.text}
+                                    </Tip>
                                 </div>
                                 <div className="d-flex justify-content-center align-items-center flex-wrap">
                                 <p>Total Clicks: {u.clicks.length}</p>

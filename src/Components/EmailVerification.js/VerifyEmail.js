@@ -42,11 +42,9 @@ const VerifyEmail = () => {
         }
         if(changedObject.param === "password"){
             if(!changedObject.value){
-                console.log("password is empty");
                 errors.password = "Please enter your password";
             }
             if(changedObject.value){
-                console.log("password is not empty");
                 errors.password = "";
             }
         }

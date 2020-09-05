@@ -29,7 +29,6 @@ const Home = function(){
 
   const verifyToken = async () => { 
     try{
-        console.log("from local storage")
         const storedToken = window.localStorage.getItem('auth-token');
         const res = await fetch( url + "/user/verifytoken", {
                                     method: "GET",
@@ -69,8 +68,6 @@ const Home = function(){
     });
    
     useEffect(() => {
-            console.log('resizing')
-            console.log(responsive)
             if(window.innerWidth < 768){
                 setResponsive({
                     ...responsive,
@@ -113,10 +110,6 @@ const Home = function(){
     }, userURLsSuccesCB, userURLsErrorCB);
 
     
-    useEffect(() => {
-        console.log("chartState")
-        console.log(chartState)
-    }, [chartState]);
     useEffect(() => {
         const clicksCount  = userURLs.reduce((clicksCount, userURL) => {
             return clicksCount + userURL.clicks.length

@@ -42,11 +42,9 @@ const ResetPassword = () => {
         }
         if(changedObject.param === "password"){
             if(!changedObject.value){
-                console.log("password is empty");
                 errors.password = "Please enter your password";
             }
             if(changedObject.value){
-                console.log("password is not empty");
                 errors.password = "";
             }
         }
@@ -88,7 +86,6 @@ const ResetPassword = () => {
                     <div >
                         { errors.error && <Alert color="danger" className="mt-2">{responseStatusCode === 410 ?
                            <p>{ errors.error}{"  "}<span className="span-link" onClick={() => {
-                               console.log("clicked")
                                 return history.push("/request/reset");
                             }}>Click here</span> to request a new Link</p> : errors.error
                         }</Alert>}

@@ -22,5 +22,4 @@ const Chart = () => {
     </ResponsiveContainer>
     );
 }
-//#8884d8
 export default Chart;

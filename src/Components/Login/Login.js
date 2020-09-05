@@ -29,11 +29,9 @@ const Login = () => {
         }
         if(changedObject.param === "password"){
             if(!changedObject.value){
-                console.log("password is empty");
                 errors.password = "Please enter your password";
             }
             if(changedObject.value){
-                console.log("password is not empty");
                 errors.password = "";
             }
         }
@@ -53,7 +51,6 @@ const Login = () => {
     const { handleChange, handleSubmit, values, response, responseStatusCode ,errors, isLoading } = useForm(initialValues, validate, cb);
 
     const { from } = location.state || { from: { pathname: "/" } };
-    console.log(from);
     
     if(authenticationState.isAuthenticated){
         return <Redirect to="/" />

@@ -7,3 +7,14 @@
     color: white;
     background-color: rgb(255, 94, 0);
 }
+
+.copy-btn{
+    color: green;
+    border: 1px solid green;
+}
+.copy-btn:hover{
+    color: whitesmoke;
+    background-color: green;
+}
+
+
