@@ -1,4 +1,4 @@
-Checkout [MinyURL]https://minyurl.netlify.app/
+Checkout [MinyURL](https://minyurl.netlify.app/).
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
