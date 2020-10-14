@@ -41,7 +41,7 @@ const RequestEmailVerification = () => {
         });
     }
 
-    const { handleChange, handleSubmit, values, response, responseStatusCode ,errors, isLoading } = useForm(initialValues, validate, cb)
+    const { handleChange, handleSubmit, values, errors, isLoading } = useForm(initialValues, validate, cb)
 
     if(action === "verify"){
         isVerification = true

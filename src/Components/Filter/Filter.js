@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Button, ModalFooter, Modal, ModalHeader, ModalBody, Label, Input, ButtonGroup, Spinner } from 'reactstrap';
-import { useRecoilState, useResetRecoilState, useRecoilValue } from 'recoil';
+import { Button, Modal, ModalHeader, ModalBody, Label, Input, ButtonGroup, Spinner } from 'reactstrap';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { filterStateRecoil } from '../../sharedStates/filterState';
 import { userURLsRecoil } from '../../sharedStates/userURLs';
 import moment from "moment";
-import { useFetch } from '../../hooks/useFetch';
 import { url } from '../../utils/apiURL';
 import { authenticationStateRecoil } from '../../sharedStates/authenticationState';
 import { displayingURLsRecoil } from '../../sharedStates/displayingURLs';

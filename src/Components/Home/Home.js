@@ -1,7 +1,7 @@
 import "./Home.css"
 import React, { useState, useEffect }  from 'react';
-import { Button, Alert, Row, Col, Container,  Collapse, CardBody, Card, Input, Label, ButtonGroup, Spinner, UncontrolledTooltip } from 'reactstrap';
-import { useRecoilState, useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
+import { Button, Alert, Row, Col, Container,  Collapse, CardBody, Card, ButtonGroup, Spinner, UncontrolledTooltip } from 'reactstrap';
+import { useRecoilState, useResetRecoilState } from 'recoil';
 import URLForm from '../URLForm/URLForm';
 import { userURLsRecoil } from '../../sharedStates/userURLs';
 import { useFetch } from '../../hooks/useFetch';
@@ -11,7 +11,6 @@ import { chartStateRecoil } from '../../sharedStates/chartState';
 import Chart from '../Chart/Chart';
 import URLsList from "../URLsList/URLsList";
 import URLDetail from "../URLDetail/URLDetail";
-import { BrowserRouter as Router } from "react-router-dom";
 import { filterStateRecoil } from "../../sharedStates/filterState";
 import Filter from "../Filter/Filter";
 import { responsiveRecoil } from "../../sharedStates/responsive";
@@ -101,7 +100,7 @@ const Home = function(){
         })
     }
 
-    const { response, responseStatusCode, error, isLoading } = useFetch(url + "/url/all", {
+    const { isLoading } = useFetch(url + "/url/all", {
         method: "GET",
         headers: {
             "Authorization": authenticationState.token
@@ -255,7 +254,6 @@ const Home = function(){
         </div>
         <URLForm />
         <Filter />
-        <Router>
             {responsive.isMobile && (
                 <>
                     {
@@ -292,7 +290,6 @@ const Home = function(){
                 </Row>
             </Container>
         )}
-        </Router>
         </div>
     )
 }

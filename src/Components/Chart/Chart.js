@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import moment from "moment";
 import {BarChart,  XAxis, YAxis, Bar,Tooltip, ResponsiveContainer } from "recharts";
 import { useRecoilValue } from 'recoil';

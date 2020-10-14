@@ -2,7 +2,7 @@ import "./Login.css"
 import React from 'react';
 import { Button, Form, FormGroup, Label, Input, Col, Row, Container, Alert, FormText, Spinner } from 'reactstrap';
 import { useHistory, useLocation, Redirect } from "react-router-dom";
-import { useRecoilState, errorSelector } from 'recoil';
+import { useRecoilState } from 'recoil';
 import {  authenticationStateRecoil } from '../../sharedStates/authenticationState';
 import { url } from '../../utils/apiURL';
 import { useForm } from '../../hooks/useForm';

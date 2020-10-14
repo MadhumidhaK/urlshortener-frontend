@@ -1,7 +1,6 @@
 import "./URLDetail.css"
 import React, { useState, useEffect } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { userURLsRecoil } from '../../sharedStates/userURLs';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import moment from "moment";
 import { Row, Col, Button, Tooltip as Tip } from 'reactstrap';
